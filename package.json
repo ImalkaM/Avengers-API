@@ -1,0 +1,25 @@
+{
+  "name": "avengersapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ImalkaM/AvengersAPI.git"
+  },
+  "keywords": [
+    "MERN Stack",
+    "NODE",
+    "EXpressJS"
+
+  ],
+  "author": "Imalka Muthukumara",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ImalkaM/AvengersAPI/issues"
+  },
+  "homepage": "https://github.com/ImalkaM/AvengersAPI#readme"
+}
