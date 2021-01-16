@@ -1,0 +1,37 @@
+const express =  require('express')
+const app = express();
+const PORT = 3000
+
+//Avenger array
+let avengerArray = [
+    {id:1, name: "Iron Man"},
+    {id:2, name: "Captain America"},
+    {id:3, name: "Thor"},
+];
+
+//setting initial GET route
+app.get("/",(req, res) => {
+    res.send("Hello World");
+});
+//setting avangers get route
+app.get("/api/avengers",(req, res) => {
+    res.send(avengerArray);
+});
+//get route to avengers by array id
+app.get("/api/avengers/:id",(req, res) => {
+    let requestedID = req.params.id;
+    let avenger = avengerArray.find((avenger) => avenger.id == requestedID);
+    if (!avenger) {
+        return res
+        .status(404)
+        .send("Avenger you are looking for does not exist on the MCU")
+        
+    }
+     return res.status(200).send(avenger)
+});
+
+//Creating server and listen on port 3000
+app.listen(PORT, () => {
+    console.log("Started listening on port" + PORT)
+});
+
