@@ -14,12 +14,14 @@
     "MERN Stack",
     "NODE",
     "EXpressJS"
-
   ],
   "author": "Imalka Muthukumara",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ImalkaM/AvengersAPI/issues"
   },
-  "homepage": "https://github.com/ImalkaM/AvengersAPI#readme"
+  "homepage": "https://github.com/ImalkaM/AvengersAPI#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
