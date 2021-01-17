@@ -61,6 +61,29 @@ app.post("/api/avengers", (req,res)=>{
     return res.send(newAvenger);
 });
 
+
+//Delete method
+app.delete("/api/avengers/:id", (req,res) => {
+  let requestedID = req.params.id;
+    let avenger = avengerArray.find((avenger) => avenger.id == requestedID);
+    if(avenger != null )
+    {
+        if(requestedID == avenger.id){
+
+            for (var i = avengerArray.length - 1; i >= 0; --i) {
+                if (avengerArray[i].id == avenger.id) {
+                    avengerArray.splice(i,1);
+                }
+            }
+            return res
+        .send("Deleted sucessfully.")
+        }
+    }
+    
+   return res
+    .send("Requested deletion ID not found.")
+})
+
 //Creating server and listen on port 3000
 app.listen(PORT, () => {
     console.log("Started listening on port" + PORT)
