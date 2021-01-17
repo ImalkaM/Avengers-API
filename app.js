@@ -1,4 +1,4 @@
-const express =  require('express')
+const express = require('express')
 const app = express();
 const PORT = 3000
 
@@ -6,56 +6,56 @@ app.use(express.json());//parsing json in express application
 
 //Avenger array
 let avengerArray = [
-    {id:1, name: "Iron Man"},
-    {id:2, name: "Captain America"},
-    {id:3, name: "Thor"},
+    { id: 1, name: "Iron Man" },
+    { id: 2, name: "Captain America" },
+    { id: 3, name: "Thor" },
 ];
 //setting initial GET route
-app.get("/",(req, res) => {
+app.get("/", (req, res) => {
     res.send("Hello World");
 });
 //setting avangers get route
-app.get("/api/avengers",(req, res) => {
+app.get("/api/avengers", (req, res) => {
     res.send(avengerArray);
 });
 //get route to avengers by array id
-app.get("/api/avengers/:id",(req, res) => {
+app.get("/api/avengers/:id", (req, res) => {
     let requestedID = req.params.id;
     let avenger = avengerArray.find((avenger) => avenger.id == requestedID);
     if (!avenger) {
         return res
-        .status(404)
-        .send("Avenger you are looking for does not exist on the MCU")
-        
+            .status(404)
+            .send("Avenger you are looking for does not exist on the MCU")
+
     }
-     return res.status(200).send(avenger)
+    return res.status(200).send(avenger)
 });
 //Defining PUT Routes (updates)
-app.put("/api/avengers/:id",(req, res) => {
+app.put("/api/avengers/:id", (req, res) => {
     let requestedID = req.params.id;
     let avenger = avengerArray.find((avenger) => avenger.id == requestedID);
     if (!avenger) {
         return res
-        .status(404)
-        .send("Avenger you are looking for does not exist on the MCU")
-        
+            .status(404)
+            .send("Avenger you are looking for does not exist on the MCU")
+
     }
-     avenger.name = req.body.name;
-     return res.send(avenger)
+    avenger.name = req.body.name;
+    return res.send(avenger)
 });
 
 //defining POST routes
-app.post("/api/avengers", (req,res)=>{
+app.post("/api/avengers", (req, res) => {
 
     if (!req.body.name) {
         return res
-        .status(400)
-        .send("Please send all the values in body.")
-        
+            .status(400)
+            .send("Please send all the values in body.")
+
     }
     let newAvenger = {
-        id : avengerArray.length + 1,
-        name : req.body.name
+        id: avengerArray.length + 1,
+        name: req.body.name
     }
     avengerArray.push(newAvenger)
     return res.send(newAvenger);
@@ -63,25 +63,24 @@ app.post("/api/avengers", (req,res)=>{
 
 
 //Delete method
-app.delete("/api/avengers/:id", (req,res) => {
-  let requestedID = req.params.id;
+app.delete("/api/avengers/:id", (req, res) => {
+    let requestedID = req.params.id;
     let avenger = avengerArray.find((avenger) => avenger.id == requestedID);
-    if(avenger != null )
-    {
-        if(requestedID == avenger.id){
+    if (avenger != null) {
+        if (requestedID == avenger.id) {
 
             for (var i = avengerArray.length - 1; i >= 0; --i) {
                 if (avengerArray[i].id == avenger.id) {
-                    avengerArray.splice(i,1);
+                    avengerArray.splice(i, 1);
                 }
             }
             return res
-        .send("Deleted sucessfully.")
+                .send("Deleted sucessfully.")
         }
     }
-    
-   return res
-    .send("Requested deletion ID not found.")
+
+    return res
+        .send("Requested deletion ID not found.")
 })
 
 //Creating server and listen on port 3000
