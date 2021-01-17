@@ -44,10 +44,26 @@ app.put("/api/avengers/:id",(req, res) => {
      return res.send(avenger)
 });
 
+//defining POST routes
+app.post("/api/avengers", (req,res)=>{
+
+    if (!req.body.name) {
+        return res
+        .status(400)
+        .send("Please send all the values in body.")
+        
+    }
+    let newAvenger = {
+        id : avengerArray.length + 1,
+        name : req.body.name
+    }
+    avengerArray.push(newAvenger)
+    return res.send(newAvenger);
+});
+
 //Creating server and listen on port 3000
 app.listen(PORT, () => {
     console.log("Started listening on port" + PORT)
 });
 
 
-module.exports =avengerArray
