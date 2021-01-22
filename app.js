@@ -1,8 +1,12 @@
 const express = require('express')
+const authentication = require("./midldleware/authentication");
+const emailjob = require("./midldleware/emailjob");
 const app = express();
 const PORT = 3000
 
-app.use(express.json());//parsing json in express application
+app.use(express.json());//parsing json in express application  as a middlware
+app.use(authentication)
+app.use(emailjob)
 
 //Avenger array
 let avengerArray = [
