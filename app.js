@@ -7,10 +7,15 @@ const home = require("./routes/home")
 const app = express();
 const PORT = 3000
 
-mongoose.connect("mongodb://localhost/avengersdb",{ useNewUrlParser: true ,useUnifiedTopology: true }) //mongoose connection
-.then(() => console.log("Connected to db sucessfully"))
-.catch(err => console.log("error has occured while connecting to db")
-);
+async function monngooseConnection(){
+  let connectionSucess = await mongoose.connect("mongodb://localhost/avengersdb",{ useNewUrlParser: true ,useUnifiedTopology: true }) //mongoose connection
+  if (!connectionSucess) {
+    throw new Error(`Errorrr` + Error);
+}else{
+    console.log("connected sucess")
+}
+}
+monngooseConnection().catch( (err) => console.log(err));
 
 
 app.use(express.json());//parsing json in express application  as a middlware

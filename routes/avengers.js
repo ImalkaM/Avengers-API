@@ -1,21 +1,22 @@
-const express = require("express")
+const express = require("express");
+const { deleteOne } = require("../models/avenger");
 const router = express.Router()
+const Avenger = require("../models/avenger")
 
-//Avenger array
-let avengerArray = [
-    { id: 1, name: "Iron Man" },
-    { id: 2, name: "Captain America" },
-    { id: 3, name: "Thor" },
-];
 //setting avangers get route
-router.get("/", (req, res, next) => {
-    res.send(avengerArray);
+router.get("/", async (req, res, next) => {
+    try {
+        let avengers = await Avenger.find()
+        res.send(avengers);
+    }catch(ex){
+        return res.status(500).send("Error", ex.message)
+    }   
 });
 
 //get route to avengers by array id
-router.get("/:id", (req, res, next) => {
+router.get("/:id",async (req, res, next) => {
     let requestedID = req.params.id;
-    let avenger = avengerArray.find((avenger) => avenger.id == requestedID);
+    let avenger = await Avenger.findById(requestedID);
     if (!avenger) {
         return res
             .status(404)
@@ -25,21 +26,22 @@ router.get("/:id", (req, res, next) => {
     return res.status(200).send(avenger)
 });
 //Defining PUT Routes (updates)
-router.put("/:id", (req, res, next) => {
+router.put("/:id",async (req, res, next) => {
     let requestedID = req.params.id;
-    let avenger = avengerArray.find((avenger) => avenger.id == requestedID);
+    let avenger = await Avenger.findById(requestedID);
     if (!avenger) {
         return res
             .status(404)
             .send("Avenger you are looking for does not exist on the MCU")
 
     }
-    avenger.name = req.body.name;
+    avenger.set({likeCount: req.body.likeCount})
+    avenger = await avenger.save()
     return res.send(avenger)
 });
 
 //defining POST routes
-router.post("/avengers", (req, res, next) => {
+router.post("/",async (req, res, next) => {
 
     if (!req.body.name) {
         return res
@@ -47,30 +49,34 @@ router.post("/avengers", (req, res, next) => {
             .send("Please send all the values in body.")
 
     }
-    let newAvenger = {
-        id: avengerArray.length + 1,
-        name: req.body.name
+    let newavenger = new Avenger({
+        name: req.body.name,
+        birthName: req.body.birthName,
+        movies: req.body.movies,
+        likeCount: req.body.likeCount,
+        imgUrl: req.body.imgUrl,
+        deceased: req.body.deceased,
+    });
+    try {
+        newavenger = await newavenger.save();
+        return res.send(newavenger);
+    }catch(ex){
+        return res.status(500).send(ex.message)
     }
-    avengerArray.push(newAvenger)
-    return res.send(newAvenger);
+   
 });
 
 
 //Delete method
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id",async (req, res, next) => {
     let requestedID = req.params.id;
-    let avenger = avengerArray.find((avenger) => avenger.id == requestedID);
+    let avenger = await Avenger.findById(requestedID);
     if (avenger != null) {
-        if (requestedID == avenger.id) {
-
-            for (var i = avengerArray.length - 1; i >= 0; --i) {
-                if (avengerArray[i].id == avenger.id) {
-                    avengerArray.splice(i, 1);
-                }
-            }
+        
+           let deleted = await Avenger.deleteOne({_id: requestedID})
             return res
-                .send("Deleted sucessfully.")
-        }
+                .send(deleted)
+        
     }
 
     return res
