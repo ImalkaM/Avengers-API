@@ -16,6 +16,7 @@ const avengerSchema = new mongoose.Schema({
     likeCount: Number,
     imgUrl: {type: String, default: "https://i.ytimg.com/vi/k-POG1-Cp1k/maxresdefault.jpg"},
     deceased: Boolean,
+    asfasda
 });
 
 
